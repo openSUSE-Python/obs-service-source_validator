@@ -180,6 +180,8 @@ Options:
   --disambiguate-sources:   disambiguate non-unique source/patch tags (only
                             needed for a "pathological" specfile)
   --print-subpacks:         print names of the main package and all subpackages
+  --print-dirassets:        print names of all assets that are generated from a directory
+  --print-moveassets:       print names of all assets that are renamed (moved) bofore build time
   --print-sources:          print names of all sources, patches, and icons
 
 EOF
