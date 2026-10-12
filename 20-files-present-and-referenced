@@ -213,7 +213,7 @@ check_tracked()
             # assume it will generated on builtime based of the archive
             return 0
         fi
-        if test -d "$DIR_TO_CHECK/${file/\.tar*/}" && grep -qE ^${file/\.tar*/}\$ $TMPDIR/dirassets; then
+        if test -d "$DIR_TO_CHECK/${file/\.tar*/}" && grep -q -F x "${file/\.tar*/}" $TMPDIR/dirassets; then
             return 0
         fi
         if obscpio_file_list | grep -qFx "$file"; then
