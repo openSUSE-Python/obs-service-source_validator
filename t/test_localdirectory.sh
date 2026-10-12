@@ -5,7 +5,7 @@ set -e
 
 # Path to the script to test
 VALIDATOR="./20-files-present-and-referenced"
-TEST_DATA_DIR="t/data/localdir_test"
+TEST_DATA_DIR="t/data/localdirectory_test"
 
 # Create test data directory if it doesn't exist
 rm -rf "$TEST_DATA_DIR"
@@ -21,7 +21,7 @@ License: MIT
 #!CreateArchive
 Source1:       node_modules.tar.xz
 #!CreateArchive: second_dir
-Source1:       second_dir-0.42.tar.xz
+Source2:       second_dir-0.42.tar.gz
 %description
 test
 %prep
@@ -41,10 +41,16 @@ touch "$TEST_DATA_DIR/second_dir/another_file"
 echo "Running validator on $TEST_DATA_DIR..."
 ./20-files-present-and-referenced --batchmode "$TEST_DATA_DIR" || exit 1
 
-rm -rf "$TEST_DATA_DIR/node_modules"
+rm -rf "$TEST_DATA_DIR/second_dir"
+
+TOUT=$(mktemp)
 set +e
-./20-files-present-and-referenced --batchmode "$TEST_DATA_DIR" 2>/dev/null | grep -q "ERROR: Current policy is to submit some part of a remote asset." || exit 1
+./20-files-present-and-referenced --batchmode "$TEST_DATA_DIR" 2>/dev/null > $TOUT && exit 1
 set -e
+
+grep -q "ERROR: second_dir-0.42.tar.gz mentioned in spec file (or the directory second_dir/) is not tracked" $TOUT || { echo "FAIL"; cat $TOUT; exit 1; }
+
+rm -f $TOUT
 
 exit 0
 

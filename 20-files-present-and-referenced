@@ -236,13 +236,12 @@ fi
 # current policy is that a remote asset needs to be committed as part of the git.
 # So either a directory or an archive.
 for m in $(<$TMPDIR/moveassets); do
-	# check tar ball result
-	check_tracked "${m##*/}" silent && continue
-	# check source directory
-	check_tracked "${m%/*}" silent && continue
-	echo "ERROR: Current policy is to submit some part of a remote asset."
-	echo "       Either archive ${m##*/} or directory ${m%/*}."
-	RETURN=2
+    # check tracking of resulting tarball
+    check_tracked "${m##*/}" silent && continue
+    # check for tracking of source directory
+    check_tracked "${m%/*}" silent && continue
+    echo "ERROR: ${m##*/} mentioned in spec file (or the directory ${m%/*}/) is not tracked."
+    RETURN=2
 done
 
 for f in $(<$TMPDIR/sources); do

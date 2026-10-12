@@ -43,7 +43,7 @@ echo "Running validator on $TEST_DATA_DIR..."
 
 rm "$TEST_DATA_DIR/llama.cpp-main.tar.xz"
 set +e
-./20-files-present-and-referenced --batchmode "$TEST_DATA_DIR" 2>/dev/null | grep -q "ERROR: Current policy is to submit some part of a remote asset" || exit 1
+./20-files-present-and-referenced --batchmode "$TEST_DATA_DIR" 2>/dev/null | grep -q "ERROR: llama.cpp-main.tar.xz mentioned in spec file" || exit 1
 set -e
 
 exit 0
